@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 const navItems = [
-    { label: "Dashboard", path: "/", icon: "⚡" },
+    { label: "Dashboard", path: "/dashboard", icon: "⚡" },
     { label: "Hook Engine", path: "/hooks", icon: "🎣" },
     { label: "Content Tracker", path: "/tracker", icon: "📊" },
     { label: "Revenue", path: "/revenue", icon: "💰" },
@@ -16,8 +16,8 @@ const navItems = [
 export default function Sidebar() {
     const pathname = usePathname();
 
-    // Don't render sidebar on login page
-    if (pathname === "/login") return null;
+    // Don't render sidebar on login page or landing page
+    if (pathname === "/login" || pathname === "/") return null;
 
     return (
         <aside className="w-64 bg-zinc-950 border-r border-zinc-800 flex flex-col min-h-screen sticky top-0">
@@ -37,8 +37,8 @@ export default function Sidebar() {
                             key={item.path}
                             href={item.path}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${isActive
-                                    ? "bg-white/10 text-white"
-                                    : "text-zinc-500 hover:text-zinc-200 hover:bg-white/5"
+                                ? "bg-white/10 text-white"
+                                : "text-zinc-500 hover:text-zinc-200 hover:bg-white/5"
                                 }`}
                         >
                             <span className="text-base">{item.icon}</span>
