@@ -1,28 +1,67 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { prisma } from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
         Credentials({
-            name: "SignalOS Admin",
+            name: "SignalOS Account",
             credentials: {
-                username: { label: "Username", type: "text" },
+                email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                const username = process.env.ADMIN_USERNAME || "admin";
-                const password = process.env.ADMIN_PASSWORD || "signalos2026";
+                if (!credentials?.email || !credentials?.password) return null;
 
-                if (
-                    credentials?.username === username &&
-                    credentials?.password === password
-                ) {
-                    return { id: "1", name: "Admin", email: "admin@signalos.app" };
-                }
-                return null;
+                const user = await prisma.user.findUnique({
+                    where: { email: credentials.email as string },
+                    include: {
+                        memberships: {
+                            include: {
+                                organization: true
+                            }
+                        }
+                    }
+                });
+
+                if (!user || !user.password) return null;
+
+                const isValid = await bcrypt.compare(credentials.password as string, user.password);
+                if (!isValid) return null;
+
+                // For simplicity, we attach the first organization found
+                const membership = user.memberships[0];
+
+                return {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    organizationId: membership?.organizationId,
+                    organizationName: membership?.organization?.name,
+                    role: membership?.role,
+                };
             },
         }),
     ],
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.organizationId = (user as any).organizationId;
+                token.organizationName = (user as any).organizationName;
+                token.role = (user as any).role;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (session.user) {
+                (session.user as any).organizationId = token.organizationId;
+                (session.user as any).organizationName = token.organizationName;
+                (session.user as any).role = token.role;
+            }
+            return session;
+        },
+    },
     pages: {
         signIn: "/login",
     },

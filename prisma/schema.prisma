@@ -7,27 +7,75 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Worker {
-  id            String          @id @default(cuid())
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  email         String       @unique
+  password      String?
+  image         String?
+  memberships   Membership[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Organization {
+  id            String       @id @default(cuid())
   name          String
-  email         String?         @unique
-  productivity  Float           @default(0.0)
-  revenue       Float           @default(0.0)
-  accounts      WorkerAccount[]
+  slug          String       @unique
+  memberships   Membership[]
+  workers       Worker[]
+  accounts      Account[]
   content       Content[]
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  stripeId      String?      // Stripe customer ID
+  plan          String       @default("free") // free, pro, enterprise
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Membership {
+  id             String       @id @default(cuid())
+  userId         String
+  organizationId String
+  role           Role         @default(MEMBER)
+  user           User         @relation(fields: [userId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([userId, organizationId])
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model Worker {
+  id             String          @id @default(cuid())
+  name           String
+  email          String?         
+  productivity   Float           @default(0.0)
+  revenue        Float           @default(0.0)
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id])
+  accounts       WorkerAccount[]
+  content        Content[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@unique([email, organizationId])
 }
 
 model Account {
-  id        String          @id @default(cuid())
-  name      String
-  platform  String          // e.g., "X", "LinkedIn", "Instagram"
-  handle    String?
-  workers   WorkerAccount[]
-  content   Content[]
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  id             String          @id @default(cuid())
+  name           String
+  platform       String          // e.g., "X", "LinkedIn", "Instagram"
+  handle         String?
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id])
+  workers        WorkerAccount[]
+  content        Content[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 }
 
 model WorkerAccount {
@@ -40,22 +88,24 @@ model WorkerAccount {
 }
 
 model Content {
-  id              String   @id @default(cuid())
+  id              String       @id @default(cuid())
   topic           String
   hook            String
   body            String?
-  status          String   @default("draft") // draft, scheduled, posted
-  score           Int      @default(0)     // 0-100
-  aiScore         Int      @default(0)
-  userScore       Int      @default(0)
-  views           Int      @default(0)
-  likes           Int      @default(0)
-  shares          Int      @default(0)
-  revenue         Float    @default(0.0)
+  status          String       @default("draft") // draft, scheduled, posted
+  score           Int          @default(0)     // 0-100
+  aiScore         Int          @default(0)
+  userScore       Int          @default(0)
+  views           Int          @default(0)
+  likes           Int          @default(0)
+  shares          Int          @default(0)
+  revenue         Float        @default(0.0)
   workerId        String?
   accountId       String?
-  worker          Worker?  @relation(fields: [workerId], references: [id])
-  account         Account? @relation(fields: [accountId], references: [id])
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  organizationId  String
+  organization    Organization @relation(fields: [organizationId], references: [id])
+  worker          Worker?      @relation(fields: [workerId], references: [id])
+  account         Account?     @relation(fields: [accountId], references: [id])
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 }

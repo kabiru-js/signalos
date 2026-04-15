@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: "Predict content performance. Connect output to revenue. Track everything.",
 };
 
+import { Providers } from "@/components/Providers";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -21,8 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased dark`}>
       <body className="min-h-full flex bg-zinc-950 text-zinc-100 font-[family-name:var(--font-inter)]">
-        <Sidebar />
-        <main className="flex-1 overflow-y-auto">{children}</main>
+        <Providers>
+          <Sidebar />
+          <main className="flex-1 overflow-y-auto">{children}</main>
+        </Providers>
       </body>
     </html>
   );

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 const navItems = [
     { label: "Dashboard", path: "/dashboard", icon: "⚡" },
@@ -15,18 +15,22 @@ const navItems = [
 
 export default function Sidebar() {
     const pathname = usePathname();
+    const { data: session } = useSession();
 
     // Don't render sidebar on login page or landing page
-    if (pathname === "/login" || pathname === "/") return null;
+    if (pathname === "/login" || pathname === "/" || pathname === "/register") return null;
+
+    const orgName = (session?.user as any)?.organizationName || "Workplace";
+    const userName = session?.user?.name || "Member";
 
     return (
         <aside className="w-64 bg-zinc-950 border-r border-zinc-800 flex flex-col min-h-screen sticky top-0">
             <div className="p-6 border-b border-zinc-800">
-                <h1 className="text-xl font-black tracking-tight">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Signal</span>
-                    <span className="text-white">OS</span>
-                </h1>
-                <p className="text-[10px] text-zinc-600 uppercase tracking-[0.3em] mt-1 font-bold">Content Distribution OS</p>
+                <div className="flex items-center gap-2 mb-1">
+                    <span className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-[10px] font-black text-white">S</span>
+                    <h1 className="text-sm font-black tracking-tight text-white uppercase truncate">{orgName}</h1>
+                </div>
+                <p className="text-[10px] text-zinc-600 uppercase tracking-widest font-bold ml-8">SignalOS v1.0</p>
             </div>
 
             <nav className="flex-1 p-4 space-y-1">
@@ -49,15 +53,20 @@ export default function Sidebar() {
             </nav>
 
             <div className="p-4 space-y-3 border-t border-zinc-800">
-                <div className="px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800">
-                    <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">AI Brain</p>
-                    <p className="text-sm text-emerald-400 font-bold mt-1">● Grok Online</p>
+                <div className="flex items-center gap-3 px-4 py-3">
+                    <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-xs font-bold text-zinc-400">
+                        {userName[0]}
+                    </div>
+                    <div className="overflow-hidden">
+                        <p className="text-xs font-bold text-white truncate">{userName}</p>
+                        <p className="text-[10px] text-zinc-500 truncate">{session?.user?.email}</p>
+                    </div>
                 </div>
                 <button
-                    onClick={() => signOut({ callbackUrl: "/login" })}
-                    className="w-full px-4 py-2.5 text-sm text-zinc-500 hover:text-red-400 hover:bg-red-900/10 rounded-xl font-semibold transition-all"
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="w-full px-4 py-2.5 text-xs text-zinc-500 hover:text-red-400 hover:bg-red-900/10 rounded-xl font-bold transition-all text-left flex items-center gap-2"
                 >
-                    Sign Out
+                    <span>🚪</span> Sign Out
                 </button>
             </div>
         </aside>
