@@ -26,7 +26,7 @@ export default function LoginPage() {
             setError("Invalid credentials. Please try again.");
             setLoading(false);
         } else {
-            router.push("/");
+            router.push("/dashboard");
             router.refresh();
         }
     };
