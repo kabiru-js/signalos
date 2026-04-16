@@ -18,7 +18,7 @@ async function getOrgId() {
 export async function registerUser(data: { name: string, email: string, password: string, orgName: string }) {
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    return await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    return await prisma.$transaction(async (tx: any) => {
         // 1. Create User
         const user = await tx.user.create({
             data: {
