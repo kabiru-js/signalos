@@ -1,5 +1,7 @@
 import { auth } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export default async function LandingPage() {
     const session = await auth();
     const isLoggedIn = !!session;
@@ -281,6 +283,7 @@ export default async function LandingPage() {
                 </h1>
                 <p className="text-zinc-600 text-sm font-medium tracking-[0.3em] uppercase mb-4 font-black italic">Content. Intelligence. Revenue.</p>
                 <p className="text-zinc-800 text-[10px] font-bold tracking-[0.2em] uppercase">© 2026 SignalOS. For those managing attention at scale.</p>
+                <div className="mt-4 text-[8px] text-zinc-900 font-black">BUILD: SAAS-EDITION-v1.0.4</div>
             </footer>
         </div>
     );
