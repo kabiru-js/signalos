@@ -47,19 +47,19 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                     </Link>
                     <div className="flex items-center gap-4">
                         {isLoggedIn ? (
-                            <Link
+                            <a
                                 href="/dashboard"
-                                className="px-6 py-2 rounded-lg bg-accent text-accent-foreground font-black text-xs uppercase tracking-widest hover:scale-105 transition-all"
+                                className="px-6 py-2 rounded-lg bg-accent text-accent-foreground font-black text-xs uppercase tracking-widest hover:scale-105 transition-all cursor-pointer z-50"
                             >
                                 Dashboard
-                            </Link>
+                            </a>
                         ) : (
-                            <Link
+                            <a
                                 href="/login"
-                                className="px-6 py-2 rounded-lg bg-accent text-accent-foreground font-black text-xs uppercase tracking-widest hover:scale-105 transition-all"
+                                className="px-6 py-2 rounded-lg bg-accent text-accent-foreground font-black text-xs uppercase tracking-widest hover:scale-105 transition-all cursor-pointer z-50"
                             >
                                 Sign In
-                            </Link>
+                            </a>
                         )}
                     </div>
                 </div>
@@ -94,17 +94,20 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                         Intelligence, Signal Scoring, and Revenue Mapping—all in one platform.
                     </motion.p>
 
-                    <motion.div className="flex flex-col md:flex-row gap-4 justify-center mb-16" variants={fadeInUp}>
-                        <Link
+                    <motion.div className="flex flex-col md:flex-row gap-4 justify-center mb-16 relative z-50" variants={fadeInUp}>
+                        <a
                             href={isLoggedIn ? "/dashboard" : "/register"}
-                            className="px-10 py-5 rounded-2xl bg-accent text-accent-foreground font-black text-xl hover:scale-105 transition-all flex items-center justify-center gap-2 group shadow-2xl shadow-accent/40"
+                            className="px-10 py-5 rounded-2xl bg-accent text-accent-foreground font-black text-xl hover:scale-105 transition-all flex items-center justify-center gap-2 group shadow-2xl shadow-accent/40 cursor-pointer"
                         >
                             {isLoggedIn ? "Go to Dashboard" : "Start Free Trial"}
                             <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                        <button className="px-10 py-5 rounded-2xl border border-white/10 hover:border-accent/50 text-foreground font-black text-xl transition-all bg-white/5">
+                        </a>
+                        <a
+                            href="#demo"
+                            className="px-10 py-5 rounded-2xl border border-white/10 hover:border-accent/50 text-foreground font-black text-xl transition-all bg-white/5 cursor-pointer"
+                        >
                             Watch System Demo
-                        </button>
+                        </a>
                     </motion.div>
 
                     <motion.div
@@ -399,16 +402,16 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                                     <span className="text-5xl font-black">{plan.price}</span>
                                     <span className="text-muted-foreground font-bold">{plan.period}</span>
                                 </div>
-                                <Link
+                                <a
                                     href="/register"
-                                    className={`w-full py-4 rounded-xl font-black text-center mb-10 transition-all flex items-center justify-center gap-2 ${plan.highlight
+                                    className={`w-full py-4 rounded-xl font-black text-center mb-10 transition-all flex items-center justify-center gap-2 relative z-50 cursor-pointer ${plan.highlight
                                         ? 'bg-accent text-accent-foreground hover:scale-[1.02] shadow-xl shadow-accent/20'
                                         : 'bg-white/5 border border-white/10 text-foreground hover:bg-white/10'
                                         }`}
                                 >
                                     {plan.cta}
                                     <ChevronRight className="w-4 h-4" />
-                                </Link>
+                                </a>
                                 <div className="space-y-4">
                                     {plan.features.map((feature, fidx) => (
                                         <div key={fidx} className="flex items-start gap-4">
@@ -517,13 +520,13 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                         <p className="text-xl text-muted-foreground mb-10 font-medium">
                             Join elite creators transforming guessing into infrastructure.
                         </p>
-                        <Link
+                        <a
                             href="/register"
-                            className="px-10 py-5 rounded-2xl bg-accent text-accent-foreground font-black text-xl hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-3 group shadow-2xl shadow-accent/30"
+                            className="px-10 py-5 rounded-2xl bg-accent text-accent-foreground font-black text-xl hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-3 group shadow-2xl shadow-accent/30 relative z-50 cursor-pointer"
                         >
                             Access SignalOS Now
                             <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-                        </Link>
+                        </a>
                     </motion.div>
                 </div>
             </motion.section>
