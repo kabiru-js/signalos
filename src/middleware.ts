@@ -1,5 +1,8 @@
-import { auth } from "@/lib/auth";
+import NextAuth from "next-auth";
+import { authConfig } from "./lib/auth.config";
 import { NextRequest, NextResponse } from "next/server";
+
+const { auth } = NextAuth(authConfig);
 
 export default auth((req: NextRequest & { auth: any }) => {
     const isLoggedIn = !!req.auth;
@@ -17,8 +20,8 @@ export default auth((req: NextRequest & { auth: any }) => {
     }
 
     // Redirect to dashboard if already logged in and on login page
-    if (isLoggedIn && isLoginPage) {
-        return NextResponse.redirect(new URL("/", req.url));
+    if (isLoggedIn && (isLoginPage || isRegisterPage)) {
+        return NextResponse.redirect(new URL("/dashboard", req.url));
     }
 
     return NextResponse.next();

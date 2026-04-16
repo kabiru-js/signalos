@@ -2,6 +2,7 @@ import NextAuth, { DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { authConfig } from "./auth.config";
 
 declare module "next-auth" {
     interface Session {
@@ -15,6 +16,7 @@ declare module "next-auth" {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    ...authConfig,
     providers: [
         Credentials({
             name: "SignalOS Account",
@@ -41,7 +43,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 const isValid = await bcrypt.compare(credentials.password as string, user.password);
                 if (!isValid) return null;
 
-                // For simplicity, we attach the first organization found
                 const membership = user.memberships[0];
 
                 return {
@@ -55,28 +56,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
         }),
     ],
-    callbacks: {
-        async jwt({ token, user }: any) {
-            if (user) {
-                token.organizationId = (user as any).organizationId;
-                token.organizationName = (user as any).organizationName;
-                token.role = (user as any).role;
-            }
-            return token;
-        },
-        async session({ session, token }: any) {
-            if (session.user) {
-                (session.user as any).organizationId = token.organizationId;
-                (session.user as any).organizationName = token.organizationName;
-                (session.user as any).role = token.role;
-            }
-            return session;
-        },
-    },
-    pages: {
-        signIn: "/login",
-    },
-    session: {
-        strategy: "jwt",
-    },
 });
