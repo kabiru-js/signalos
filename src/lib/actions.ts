@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import bcrypt from "bcryptjs";
@@ -17,7 +18,7 @@ async function getOrgId() {
 export async function registerUser(data: { name: string, email: string, password: string, orgName: string }) {
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    return await prisma.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
         // 1. Create User
         const user = await tx.user.create({
             data: {
