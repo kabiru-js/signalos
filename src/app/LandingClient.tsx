@@ -31,6 +31,7 @@ const staggerContainer = {
 export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: boolean }) {
     const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
     const [isLoggedIn] = useState(initialIsLoggedIn);
+    const [showDemoModal, setShowDemoModal] = useState(false);
 
     return (
         <div className="min-h-screen bg-background text-foreground grid-background">
@@ -102,12 +103,12 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                             {isLoggedIn ? "Go to Dashboard" : "Start Free Trial"}
                             <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                         </a>
-                        <a
-                            href="#demo"
-                            className="px-10 py-5 rounded-2xl border border-white/10 hover:border-accent/50 text-foreground font-black text-xl transition-all bg-white/5 cursor-pointer"
+                        <button
+                            onClick={() => setShowDemoModal(true)}
+                            className="px-10 py-5 rounded-2xl border border-white/10 hover:border-accent/50 text-foreground font-black text-xl transition-all bg-white/5 cursor-pointer shadow-xl"
                         >
                             Watch System Demo
-                        </a>
+                        </button>
                     </motion.div>
 
                     <motion.div
@@ -575,6 +576,47 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                     </div>
                 </div>
             </footer>
+
+            {/* Demo Modal */}
+            <AnimatePresence>
+                {showDemoModal && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+                        onClick={() => setShowDemoModal(false)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="relative max-w-5xl w-full aspect-video glass-card rounded-3xl overflow-hidden shadow-2xl border border-accent/30"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                onClick={() => setShowDemoModal(false)}
+                                className="absolute top-6 right-6 z-[210] p-2 bg-black/50 hover:bg-black/80 rounded-full text-white transition-colors"
+                            >
+                                <Zap className="w-6 h-6 rotate-45" />
+                            </button>
+
+                            <div className="absolute inset-0 flex items-center justify-center bg-zinc-950">
+                                <img
+                                    src="/demo.webp"
+                                    alt="SignalOS System Demo"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+
+                            <div className="absolute bottom-0 left-0 right-0 p-8 pt-20 bg-gradient-to-t from-black to-transparent pointer-events-none">
+                                <p className="text-white font-black text-xl tracking-tight">System Walkthrough: SignalOS Intelligence Layer</p>
+                                <p className="text-muted-foreground text-sm font-medium">Recorded Live • Production Environment v0.6</p>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
