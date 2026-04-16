@@ -114,12 +114,18 @@ export async function getContent() {
     });
 }
 
-export async function createContent(data: { topic: string; hook: string; workerId?: string; accountId?: string }) {
+export async function createContent(data: { topic: string; hook: string; format?: string; workerId?: string; accountId?: string }) {
     const organizationId = await getOrgId();
     const content = await prisma.content.create({
-        data: { ...data, organizationId, status: "draft", score: 0 },
+        data: {
+            ...data,
+            organizationId,
+            status: data.format ? "PLANNED" : "IDEA",
+            score: 0
+        },
     });
     revalidatePath("/tracker");
+    revalidatePath("/planner");
     return content;
 }
 
@@ -158,6 +164,29 @@ export async function deleteContent(id: string) {
         where: { id, organizationId }
     });
     revalidatePath("/tracker");
+    revalidatePath("/planner");
+}
+
+export async function getFormatInsights() {
+    const organizationId = await getOrgId();
+    const contents = await prisma.content.findMany({
+        where: { organizationId, NOT: { format: null } },
+        select: { format: true, revenue: true, views: true }
+    });
+
+    const stats: Record<string, { revenue: number; count: number }> = {};
+    contents.forEach((c: { format: string | null; revenue: number; views: number }) => {
+        const fmt = c.format || "Unknown";
+        if (!stats[fmt]) stats[fmt] = { revenue: 0, count: 0 };
+        stats[fmt].revenue += c.revenue;
+        stats[fmt].count += 1;
+    });
+
+    return Object.entries(stats).map(([name, data]) => ({
+        name,
+        totalRevenue: data.revenue,
+        score: data.count > 0 ? (data.revenue / data.count) : 0
+    })).sort((a, b) => b.score - a.score);
 }
 
 // ─── Revenue ───

@@ -7,6 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 const navItems = [
     { label: "Dashboard", path: "/dashboard", icon: "⚡" },
     { label: "Hook Engine", path: "/hooks", icon: "🎣" },
+    { label: "Content Planner", path: "/planner", icon: "🗓️" },
     { label: "Content Tracker", path: "/tracker", icon: "📊" },
     { label: "Revenue", path: "/revenue", icon: "💰" },
     { label: "Management", path: "/management", icon: "👥" },

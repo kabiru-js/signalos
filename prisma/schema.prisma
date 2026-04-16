@@ -92,7 +92,9 @@ model Content {
   topic           String
   hook            String
   body            String?
-  status          String       @default("draft") // draft, scheduled, posted
+  format          String?      // e.g., "Short Video", "Thread", "Newsletter"
+  status          String       @default("IDEA") // IDEA, PLANNED, PUBLISHED
+  targetDate      DateTime?
   score           Int          @default(0)     // 0-100
   aiScore         Int          @default(0)
   userScore       Int          @default(0)

@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { createContent } from "@/lib/actions";
 
 export default function HookEngine() {
     const [topic, setTopic] = useState("");
     const [hooks, setHooks] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
+    const [savedHooks, setSavedHooks] = useState<string[]>([]);
 
     const generateHooks = async () => {
         if (!topic.trim()) return;
@@ -23,6 +25,15 @@ export default function HookEngine() {
             console.error(err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const saveHook = async (hook: string) => {
+        try {
+            await createContent({ topic, hook });
+            setSavedHooks([...savedHooks, hook]);
+        } catch (err) {
+            console.error(err);
         }
     };
 
@@ -67,12 +78,21 @@ export default function HookEngine() {
                                     <span className="text-yellow-500 font-black text-lg mt-0.5">{i + 1}</span>
                                     <p className="text-zinc-200 font-medium leading-relaxed">{hook}</p>
                                 </div>
-                                <button
-                                    onClick={() => navigator.clipboard.writeText(hook)}
-                                    className="text-zinc-600 hover:text-yellow-400 transition-colors text-xs font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100"
-                                >
-                                    Copy
-                                </button>
+                                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                                    <button
+                                        onClick={() => navigator.clipboard.writeText(hook)}
+                                        className="px-3 py-1 bg-zinc-800 hover:bg-zinc-700 rounded text-zinc-400 hover:text-white transition-colors text-[10px] font-bold uppercase tracking-widest"
+                                    >
+                                        Copy
+                                    </button>
+                                    <button
+                                        onClick={() => saveHook(hook)}
+                                        disabled={savedHooks.includes(hook)}
+                                        className="px-3 py-1 bg-yellow-600/20 hover:bg-yellow-600/40 text-yellow-500 rounded text-[10px] font-bold uppercase tracking-widest transition-all disabled:opacity-50"
+                                    >
+                                        {savedHooks.includes(hook) ? "Saved" : "Save as Idea"}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}
