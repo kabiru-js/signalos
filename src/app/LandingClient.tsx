@@ -82,8 +82,8 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                 <div className="relative max-w-4xl mx-auto text-center z-10">
                     <motion.div variants={fadeInUp}>
                         <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight mb-6">
-                            The Operating System for{' '}
-                            <span className="gradient-text">Content Revenue</span>
+                            Turn Your Content into a <br />
+                            <span className="gradient-text">Revenue Engine</span>
                         </h1>
                     </motion.div>
 
@@ -91,8 +91,8 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                         className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto font-medium"
                         variants={fadeInUp}
                     >
-                        SignalOS transforms content from guesswork into infrastructure. Hook
-                        Intelligence, Signal Scoring, and Revenue Mapping—all in one platform.
+                        Stop guessing. SignalOS helps you create better hooks, track what works,
+                        and make more money—all in one place.
                     </motion.p>
 
                     <motion.div className="flex flex-col md:flex-row gap-4 justify-center mb-16 relative z-50" variants={fadeInUp}>
@@ -138,10 +138,10 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                 <div className="max-w-5xl mx-auto">
                     <motion.div className="text-center mb-16" variants={fadeInUp}>
                         <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-                            You have a <span className="text-accent">signal problem</span>
+                            Stop wasting time on <span className="text-accent">bad content</span>
                         </h2>
                         <p className="text-lg text-muted-foreground font-medium">
-                            Every blind spot in your content workflow costs you revenue.
+                            If you can&apos;t track it, you can&apos;t grow it.
                         </p>
                     </motion.div>
 
@@ -152,21 +152,21 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                         {[
                             {
                                 icon: Zap,
-                                title: 'Hooks Based on Instinct',
+                                title: 'Guessing is expensive',
                                 description:
-                                    'Creating content hooks without data-driven insights leads to inconsistent performance and wasted production.',
+                                    'Stop posting and praying. Use data to know exactly what hooks will get clicks.',
                             },
                             {
                                 icon: Target,
-                                title: 'Teams Without Alignment',
+                                title: 'Messy Workflows',
                                 description:
-                                    'Without a unified command center, your team spends more time coordinating than creating.',
+                                    'Stop losing ideas in chats. Keep your whole team aligned in one simple dashboard.',
                             },
                             {
                                 icon: TrendingUp,
-                                title: 'Invisible ROI',
+                                title: 'Invisible Profits',
                                 description:
-                                    'When you cannot attribute revenue to specific pieces of content, you cannot scale what works.',
+                                    'If you don&apos;t know which post made the sale, you can&apos;t repeat the success.',
                             },
                         ].map((problem, idx) => (
                             <motion.div
@@ -196,10 +196,10 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                 <div className="max-w-6xl mx-auto">
                     <motion.div className="text-center mb-16" variants={fadeInUp}>
                         <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-                            The Three Pillars of SignalOS
+                            Everything You Need to Grow
                         </h2>
                         <p className="text-lg text-muted-foreground font-medium">
-                            A complete framework for content revenue intelligence
+                            Built by creators, for creators.
                         </p>
                     </motion.div>
 
@@ -210,24 +210,24 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                         {[
                             {
                                 icon: Sparkles,
-                                title: 'Hook Intelligence',
+                                title: 'Hooks that Work',
                                 description:
-                                    'Analyze what makes your content stick. Get real-time insights on what hooks drive engagement.',
-                                features: ['Pattern Recognition', 'A/B Testing', 'Trend Analysis'],
+                                    'Get actual data on why your content sticks and how to keep it happening.',
+                                features: ['Easy Pattern Spotting', 'Simple Tests', 'What&apos;s Trending'],
                             },
                             {
                                 icon: Target,
-                                title: 'Signal Scoring',
+                                title: 'Scores You Trust',
                                 description:
-                                    'Every piece of content gets a score. Know exactly how well your content will perform.',
-                                features: ['Predictive Scoring', 'Performance Tracking', 'Benchmarking'],
+                                    'Every post gets a score. Know how your content will do before you hit post.',
+                                features: ['Predict Results', 'Live Tracking', 'Compare to Best'],
                             },
                             {
                                 icon: TrendingUp,
-                                title: 'Revenue Mapping',
+                                title: 'Show Me the Money',
                                 description:
-                                    'Connect content directly to revenue. See which pieces generate the most income.',
-                                features: ['Attribution', 'Forecasting', 'Optimization'],
+                                    'See exactly which posts are making you money and which ones are a waste.',
+                                features: ['Sales Tracking', 'Smart Foreseeing', 'Easy Growth'],
                             },
                         ].map((pillar, idx) => (
                             <motion.div
@@ -268,7 +268,7 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                     <motion.div className="text-center mb-16" variants={fadeInUp}>
                         <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">How It Works</h2>
                         <p className="text-lg text-muted-foreground font-medium">
-                            Five simple steps to master your content revenue
+                            Five simple steps to more revenue.
                         </p>
                     </motion.div>
 
@@ -339,9 +339,9 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
             >
                 <div className="max-w-5xl mx-auto">
                     <motion.div className="text-center mb-16" variants={fadeInUp}>
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Simple, Transparent Pricing</h2>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Simple Pricing</h2>
                         <p className="text-lg text-muted-foreground font-medium">
-                            Choose the plan that fits your content operation
+                            Pricing that grows with you. No hidden fees.
                         </p>
                     </motion.div>
 
@@ -356,11 +356,11 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                                 period: '/month',
                                 description: 'For individual creators and small teams',
                                 features: [
-                                    'Hook Intelligence Analysis',
-                                    'Basic Signal Scoring',
-                                    'Core Revenue Mapping',
+                                    'Better Hook Analysis',
+                                    'Basic Content Scores',
+                                    'Simple Revenue Tracking',
                                     'Standard Support',
-                                    'Performance Dashboard',
+                                    'Easy Dashboard',
                                 ],
                                 cta: 'Start Free Trial',
                                 highlight: false,
@@ -371,12 +371,12 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                                 period: '/month',
                                 description: 'For growing content operations',
                                 features: [
-                                    'Advanced Hook Intelligence',
-                                    'Premium Signal Scoring',
-                                    'Unlimited Workspace Hubs',
-                                    'Advanced Revenue Mapping',
+                                    'Advanced Hook Data',
+                                    'Premium Content Scores',
+                                    'Unlimited Workspaces',
+                                    'Better Revenue Data',
                                     'Priority Expert Support',
-                                    'Team Collaboration Tools',
+                                    'Simple Team Tools',
                                 ],
                                 cta: 'Get Started Now',
                                 highlight: true,
@@ -525,7 +525,7 @@ export default function LandingPage({ initialIsLoggedIn }: { initialIsLoggedIn: 
                             href="/register"
                             className="px-10 py-5 rounded-2xl bg-accent text-accent-foreground font-black text-xl hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-3 group shadow-2xl shadow-accent/30 relative z-50 cursor-pointer"
                         >
-                            Access SignalOS Now
+                            Try SignalOS Today
                             <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
                         </a>
                     </motion.div>
